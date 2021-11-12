@@ -1,0 +1,61 @@
+.AutoSuggestContainer{
+    background: rgb(255, 222, 222);
+    max-width:60% !important;
+    height: 500px;
+    border-radius: 30px;
+}
+
+
+.inputTextBox{
+    /* width: 500px; */
+    /* max-width: 700px; */
+    min-height:300px;
+    align-items: baseline;
+    border-radius: 20px;
+    border-color: transparent;
+    resize: none;
+    font-size: 22px;
+    color: #2a2a2a;
+}
+
+
+
+.btn-submit{
+    max-width: 30% !important;
+    border-radius: 35px!important; 
+}
+
+.suggestion-text-header{
+    color: #8f8f8f;
+    margin-bottom: 40px;
+}
+
+
+@keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+.temp-no-bullets{
+    list-style-type: none;
+}
+
+/* animation credit: https://codesandbox.io/s/dreamy-frog-r6sr8?file=/src/styles.css:82-97 */
+.temp-button-suggestion{
+    animation: fadeInAnimation 1s linear;
+    background-color: #c7c7c7 !important;
+    color: #5c5c5c !important;
+    border-radius: 13px!important; 
+    margin: 5px !important;
+}
+
+.temp-button-suggestion:focus{
+    background: rgb(67, 93, 167) !important;
+    color: #d4d4d4 !important;
+}
+
+/* @import '~bootstrap/scss/bootstrap.scss'; */
