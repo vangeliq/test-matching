@@ -1,5 +1,6 @@
 import React from 'react';
 import './css/AutoSuggest.css';
+import axios from 'axios';
 
 
 // using code from: 
@@ -18,6 +19,7 @@ export default class AutoSuggest extends React.Component {
         this.state = {
             textBoxValue: "",
             suggestion: [],
+            suggestions: [],
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,10 +38,30 @@ export default class AutoSuggest extends React.Component {
         this.setState(() => ({suggestion: something}));
     }
 
+    handleSubmitAxios = event => {
+        this.setState({ suggestions: []});
+        event.preventDefault();
+    
+        // const url = 'http://localhost:4000/getSuggestions';
+
+        
+        const url = `https://jsonplaceholder.typicode.com/users`;
+        const reply = {
+          userInput: this.state.textBoxValue
+        };
+
+        axios.get(url, { params: reply })
+            .then(res => {
+                const results = res.data;
+                this.setState({ suggestions: results });
+              });
+      }
+
     renderSuggestions () {
         console.log("button clicked render");
-        const {suggestion} = this.state;
-        if (suggestion.length === 0){
+        // const {suggestion} = this.state;
+        const {suggestions} = this.state;
+        if (suggestions.length === 0){
             return <div className="container-fluid suggestion-text-header">
                 <h4> Please write more so we can suggest more things!</h4>
             </div>;
@@ -48,12 +70,35 @@ export default class AutoSuggest extends React.Component {
             <div className="container-fluid suggestions">
                 <h4 className="mx-auto suggestion-text-header">do you mean:</h4>
                 <ul className="temp-no-bullets">    
-                    {suggestion.map((item) => <li> 
-                        <button type="button" className="btn temp-button-suggestion" data-bs-toggle="button" autocomplete="off">
-                            {item}
-                        </button>
+                {suggestions.map((item) => <li> 
+                        {/* {this.renderSuggestion(item)}
+                         */}
+                         {this.renderCheckboxes(item)}
+                        {/* <button type="button" className="btn temp-button-suggestion" data-bs-toggle="button" autocomplete="off">
+                            {item.name}
+                        </button> */}
                         </li>)}
                 </ul>
+            </div>
+        )
+    }
+
+    renderCheckboxes(suggestion) {
+        return(
+            <div>
+                <label class="checkBoxContainer text-left">{suggestion.name}
+                <input type="checkbox"></input>
+                <span class="checkmark"></span>
+                </label>
+            </div>
+        )
+    }
+
+    renderSuggestion(suggestion) {
+        return(
+            <div class="form-check text-left temp-button-suggestion">
+                <input type="Checkbox" name="blue" className="checkmark hiddenCheckboxes " value={suggestion.name} defaultValue="Search..." Checked></input>
+                <label className="ml-2">{suggestion.name}</label>
             </div>
         )
     }
@@ -70,7 +115,7 @@ export default class AutoSuggest extends React.Component {
                             <h3>Talk to us about your problems: </h3>
                             <textarea onChange={this.handleChange} type = 'text' value={this.state.textBoxValue} className="inputTextBox mb-2 p-4">
                             </textarea>
-                            <button onClick={this.handleSubmit} type="button" className="btn btn-dark btn-submit mt-3">Submit</button>
+                            <button onClick={this.handleSubmitAxios} type="button" className="btn btn-dark btn-submit mt-3">Submit</button>
                         </div>
                     </form>
                 </div>
